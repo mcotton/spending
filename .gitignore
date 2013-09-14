@@ -3,5 +3,3 @@ node_modules/
 Rocket/
 *.rdb
 *.csv
-uploads/*
-
