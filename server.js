@@ -6,7 +6,11 @@ var csv     =   require('csv'),
     http    =   require('http'),
     getMimeType = require('simple-mime')('application/octect-stream'),
     redis   =   require('redis'),
-    client  =   redis.createClient();
+    client  =   redis.createClient(),
+    util    =   require('util'),
+    formidable    =   require('formidable'),
+    host    =   '0.0.0.0',
+    port    =   3000;
 
 
 
@@ -59,30 +63,56 @@ function return_by_date(callback) {
 
 }
 
-function importCSV(res) {
-    var results = []
-    csv()
-        .from(fs.createReadStream(__dirname + '/Checking2.csv'))
-        .to(function(data) {
-                u.map(data.split('\n'), function(item)  {
-                    var arr = item.split(',')
+function importCSV(req, res) {
+    /*
+    
+    */
+    var form = new formidable.IncomingForm(),
+        files = [],
+        fields = [];
 
-                    results.push({
-                        'date':         new Date(arr[0]).toString(),
-                        'amount':       parseFloat(arr[1], 10),
-                        'direction':    (parseFloat(arr[1], 10) <= 0) ? 'out' : 'in',
-                        'desc':         arr[4]
-                    })
+    form.uploadDir = 'uploads';
 
-                    client.rpush('user:1000:date',      new Date(arr[0]) ) 
-                    client.rpush('user:1000:amount',    parseFloat(arr[1], 10) )
-                    client.rpush('user:1000:direction', (parseFloat(arr[1],10) <= 0) ? 'out' : 'in') 
-                    client.rpush('user:1000:desc',      arr[4]) 
+    form
+      .on('field', function(field, value) {
+        console.log(field, value);
+        fields.push([field, value]);
+      })
+      .on('file', function(field, file) {
+        console.log(field, file);
+        files.push([field, file]);
+      })
+      .on('end', function() {
+        console.log('-> upload done');
+        res.writeHead(302, {'location': 'http://' + host + ':' + port + '/' });
+        res.end();
+
+        console.log('uploaded file to: ' + files[0][1].path)
+        
+        var results = []
+        csv()
+            .from(fs.createReadStream(files[0][1].path))
+            .to(function(data) {
+                    u.map(data.split('\n'), function(item)  {
+                        var arr = item.split(',')
+
+                        results.push({
+                            'date':         new Date(arr[0]).toString(),
+                            'amount':       parseFloat(arr[1], 10),
+                            'direction':    (parseFloat(arr[1], 10) <= 0) ? 'out' : 'in',
+                            'desc':         arr[4]
+                        })
+
+                        client.rpush('user:1000:date',      new Date(arr[0]) ) 
+                        client.rpush('user:1000:amount',    parseFloat(arr[1], 10) )
+                        client.rpush('user:1000:direction', (parseFloat(arr[1],10) <= 0) ? 'out' : 'in') 
+                        client.rpush('user:1000:desc',      arr[4]) 
+                    });
+                    (typeof callback === 'function') ? callback(results) : results
                 });
-                (typeof callback === 'function') ? callback(results) : results
-            });
-        res.writeHead(200, {'Content-type': 'application/json'})
-        res.end("{'status': 'import complete'}");
+
+      });
+    form.parse(req);
 
 }
 
@@ -93,7 +123,7 @@ http.createServer(function(req, res) {
         //return_all(function(data) { res.end(JSON.stringify(data)) })
         return_by_date(function(data) { res.end(JSON.stringify(data)) })
     } else if(req.url === '/import') {
-        importCSV(res);
+        importCSV(req, res);
     } else {
         var url = (req.url === '/' || req.url === '') ? '/public/index.html' : '/public' + req.url;
         // pull the file from the local filesystem
@@ -105,7 +135,8 @@ http.createServer(function(req, res) {
             }
         })
     }
-}).listen(3000, '0.0.0.0');
+}).listen(port, host);
+console.log('starting server on ' + host + ':' + port)
 
 
 

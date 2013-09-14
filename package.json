@@ -8,7 +8,8 @@
     "underscore": "~1.5.1",
     "simple-mime": "0.0.8",
     "redis": "~0.8.4",
-    "hiredis": "~0.1.15"
+    "hiredis": "~0.1.15",
+    "formidable": "~1.0.14"
   },
   "devDependencies": {
     "grunt-contrib-concat": "~0.3.0"

@@ -1,11 +1,12 @@
 ###About###
 
-This is my simple webapp to parse my banking history. Right now it only supports CSV from Wells Fargo.
+This is just a quick project to help sort and filter the Wells Fargo transaction logs.  You'll need to download a CSV file from your account page.
 
 ###Installation###
+`npm install` and then copy the mcotton/Rocket project and symlink (or download) the js/lib/rocket.js file.
 
-    - clone this repo
-    - update the Rocket submodule `git submodule update`
-    - run `npm install`
+###Dependencies###
 
-
+ - node
+ - redis
+ - mcotton/Rocket
