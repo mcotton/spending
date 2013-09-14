@@ -1,0 +1,29 @@
+{
+  "name": "spending",
+  "version": "0.0.1",
+  "description": "figure out wtf my money is spent on",
+  "main": "server.js",
+  "dependencies": {
+    "csv": "~0.3.5",
+    "underscore": "~1.5.1",
+    "simple-mime": "0.0.8",
+    "redis": "~0.8.4",
+    "hiredis": "~0.1.15"
+  },
+  "devDependencies": {
+    "grunt-contrib-concat": "~0.3.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "mcotton",
+  "license": "BSD",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mcotton/spending.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mcotton/spending/issues"
+  }
+}
