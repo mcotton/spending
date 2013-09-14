@@ -14,25 +14,6 @@ var csv     =   require('csv'),
 
 
 
-function return_all(callback) {
-    var results = []
-    csv()
-        .from(fs.createReadStream(__dirname + '/Checking2.csv'))
-        .to(function(data) {
-                u.map(data.split('\n'), function(item)  {
-                    var arr = item.split(',')
-
-                    results.push({
-                        'date':         new Date(arr[0]),
-                        'amount':       parseFloat(arr[1], 10),
-                        'direction':    (parseFloat(arr[1], 10) <= 0) ? 'out' : 'in',
-                        'desc':         arr[4]
-                    })
-                });
-                (typeof callback === 'function') ? callback(results) : results
-            });
-}
-
 function return_by_date(callback) {
     var results = [],
         dates = [],
@@ -120,7 +101,6 @@ http.createServer(function(req, res) {
     if( /[/A-Za-z]\.json/.test(req.url) ) {
         // see if it matches the pattern of [A-Za-z].json
         res.writeHead(200, {'Content-type': 'application/json'})
-        //return_all(function(data) { res.end(JSON.stringify(data)) })
         return_by_date(function(data) { res.end(JSON.stringify(data)) })
     } else if(req.url === '/import') {
         importCSV(req, res);
