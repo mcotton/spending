@@ -3,7 +3,7 @@ Rocket.TransactionView = Rocket.CollectionView.extend({
 
     initialize: function() {
         this.setElement('#transactions')
-        //this.listenTo(this, 'reset', this.render)
+        this.listenTo(this.collection, 'reset', this.render)
     },
 
     events: {
