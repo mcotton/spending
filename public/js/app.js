@@ -14,6 +14,6 @@ transactions.fetch({reset: true});
 $(document).ready(function(){
 
  	workspace = new Workspace();
- 	Backbone.history.start({pushState: true, silent: true});
+ 	Backbone.history.start({pushState: false, silent: true});
 
 })

@@ -9,6 +9,9 @@ transaction = Rocket.Model.extend({
         } else {
             this.set('store', data.desc)
         }
+
+        data.date = new Date(data.date)
+
         return data
     }
 

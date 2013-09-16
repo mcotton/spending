@@ -3,8 +3,9 @@ Workspace = Rocket.Router.extend({
 
 	routes: {
 		"": 				"index" ,
-		"list": 			"list",
-		"detail/:store": 	"detail"
+		"detail/:store": 	"detail",
+		"detail": 			"list",
+		"list": 			"list"
 	},
 
 	index: function() {
@@ -18,10 +19,12 @@ Workspace = Rocket.Router.extend({
 	},
 
 	detail: function(store) {
-
-		transactions.filter_by_store(decodeURI(store))
-		transactionsView.render()
-
+		if(store && store.length > 0) {
+			transactions.filter_by_store(decodeURI(store))
+			transactionsView.render()
+		} else {
+			workspace.navigate('/list', {trigger: true, replace: true})
+		}
 	}
 
 });

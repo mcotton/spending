@@ -16,6 +16,10 @@ Rocket.TransactionList = Rocket.Collection.extend({
 
     parse: function(response) {
     	return response;
+    },
+
+    comparator: function(model) {
+    	return -1 * model.get('date')
     }
 
 });
