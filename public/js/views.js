@@ -9,10 +9,13 @@ Rocket.TransactionView = Rocket.CollectionView.extend({
     events: {
         'click .selection':     'selection',
         'mouseover .store':     'show_description', 
-        'mouseout .store':      'hide_description' 
+        'mouseout .store':      'hide_description'
+        // TODO: add click handlers to table headers for sorting 
     },
 
     'selection': function(e) {
+
+        // TODO: add filter on selection, multiple descriptions
         var cid = $(e.target).parent().parent().data('cid')
         workspace.navigate("/detail/" + encodeURI(this.collection.get(cid).get('store')), {trigger: true, replace: true})
         this.collection.filter_by_store(this.collection.get(cid).get('store'))
@@ -20,11 +23,11 @@ Rocket.TransactionView = Rocket.CollectionView.extend({
     },
 
     'show_description': function(e) {
-    
+        // TODO: make this work
     },
 
     'hide_description': function(e) {
-    
+        // TODO: make this work
     },
 
     onRender: function() {
