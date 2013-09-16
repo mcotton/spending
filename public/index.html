@@ -52,7 +52,7 @@
               </thead>
               <tbody>
                 <% _.each(items, function(item) { %>
-                  <tr class="<%= item.get('direction') %>" style="display: <%= (item.get('visible') ? '' : 'none' ) %>" data-cid="<%= item.cid %>">
+                  <tr class="<%= item.get('direction') %>" style="<%= (item.get('visible')) ? '' : 'display: none;' %>;" data-cid="<%= item.cid %>">
                     <td><input type="checkbox" class="selection"></td>
                     <td><%= new Date(item.get('date')).toLocaleDateString() %></td>
                     <td>$<%= item.get('amount') %></td>
@@ -103,8 +103,8 @@
     <script src="js/views.js"></script>
     <script src="js/dispatcher.js"></script>
     <script src="js/sync.js"></script>
-    <script src="js/router.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/router.js"></script>
   </body>
 </html>
 

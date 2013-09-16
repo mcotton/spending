@@ -3,14 +3,19 @@ Rocket.TransactionList = Rocket.Collection.extend({
     url: '/all.json',
 
     filter_by_store: function(store) {
-        _.each(this.models, function(item) {
-            item.set('visible', (item.get('store') === store) ? true : false)
+        _.filter(this.models, function(model) {
+            model.set('visible', (model.get('store') === store) ? true : false);
+        });
+    },
+
+    filter_by_none: function() {
+        _.each(this.models, function(model) {
+        	model.set('visible', true);
         })
     },
 
     parse: function(response) {
-    	console.log(response);
     	return response;
     }
 
-})
+});

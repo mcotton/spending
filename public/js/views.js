@@ -14,8 +14,9 @@ Rocket.TransactionView = Rocket.CollectionView.extend({
 
     'selection': function(e) {
         var cid = $(e.target).parent().parent().data('cid')
+        workspace.navigate("/detail/" + encodeURI(this.collection.get(cid).get('store')), {trigger: true, replace: true})
         this.collection.filter_by_store(this.collection.get(cid).get('store'))
-        this.render()  
+        this.render()   
     },
 
     'show_description': function(e) {

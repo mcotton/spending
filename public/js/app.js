@@ -2,15 +2,18 @@
 
 var app = {}
 
- var transactions = new Rocket.TransactionList()
+// Collections
+var transactions = new Rocket.TransactionList()
+
+// Views
+var transactionsView = new Rocket.TransactionView({ collection: transactions })
 
 
-$(document).ready(function() {
+transactions.fetch({reset: true});
 
+$(document).ready(function(){
 
-    transactions.fetch({reset: true});
-    transactionsView = new Rocket.TransactionView({ collection: transactions })
-    transactionsView.render()
+ 	workspace = new Workspace();
+ 	Backbone.history.start({pushState: true, silent: true});
 
-
-});
+})
